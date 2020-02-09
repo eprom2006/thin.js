@@ -26,7 +26,7 @@ $(function() {
         if (fun === null) {
             //console.log("no function");
         } else if (
-            Object.prototype.toString.call(window[fun]) === "[object Function]"
+            typeof(window[fun]) === "function"
         ) {
             window[fun]();
         } else {
@@ -49,19 +49,19 @@ $.fn.extend({
     render: function(p) {
         if (p.data === undefined) { p.data = {}; }
 
-        if (Object.prototype.toString.call(p.template) === "[object Array]") {
+        if (typeof(p.template) === "array") {
             render_by_data({
                 container: this[0],
                 template: p.template,
                 data: p.data
             });
-        } else if (Object.prototype.toString.call(p.data) === "[object Array]") {
+        } else if (typeof(p.data) === "array") {
             render_by_data({
                 container: this[0],
                 template: p.template,
                 data: p.data
             });
-        } else if (Object.prototype.toString.call(p.template) === "[object Object]") {
+        } else if (typeof(p.template) === "object") {
             //this[0].data_of_thin = p.data; //将数据附加到容器。
             render_by_data({
                 container: this[0],
@@ -77,7 +77,7 @@ $.fn.extend({
         }
 
         function render_by_data(p) {
-            if (Object.prototype.toString.call(p.data) === "[object Array]") {
+            if (typeof(p.data) === "array") {
                 //
                 //  数据是数组的场景。
                 //
@@ -100,7 +100,7 @@ $.fn.extend({
         }
 
         function render_by_templates(p) {
-            if (Object.prototype.toString.call(p.template) === "[object Array]") {
+            if (typeof(p.template) === "array") {
                 // 模板是数组的场景。
                 for (var ti = 0; ti < p.template.length; ti++) {
                     render_template({
@@ -119,7 +119,7 @@ $.fn.extend({
         }
 
         function render_template(p) {
-            if (Object.prototype.toString.call(p.template) === "[object String]") {
+            if (typeof(p.template) === "string") {
                 //
                 // 模板是字符串的场景
                 //
@@ -131,7 +131,7 @@ $.fn.extend({
                 $(e).append(content);
                 p.container.appendChild(e);
             } else if (
-                Object.prototype.toString.call(p.template) === "[object Object]"
+                typeof(p.template) === "object"
             ) {
                 //模板是对象的场景
                 render_object_template({
@@ -140,7 +140,7 @@ $.fn.extend({
                     data: p.data
                 });
             } else if (
-                Object.prototype.toString.call(p.template) === "[object Function]"
+                typeof(p.template) === "function"
             ) {
                 var datacontainer = nearest_datacontainer(p.container);
 
@@ -436,7 +436,7 @@ $.fn.extend({
                     //a 设置节点attribute
                     if (p.template.a !== undefined) {
                         Object.keys(p.template.a).forEach(function(key) {
-                            if (Object.prototype.toString.call(p.template.a[key]) === "[object Function]") {
+                            if (typeof(p.template.a[key]) === "function") {
                                 var data_container = nearest_datacontainer(element);
                                 element.setAttribute(
                                     key,
@@ -460,7 +460,7 @@ $.fn.extend({
                     //style 设置节点样式
                     if (p.template.style !== undefined) {
                         Object.keys(p.template.style).forEach(function(key) {
-                            if (Object.prototype.toString.call(p.template.style[key]) === "[object Function]") {
+                            if (typeof(p.template.style[key]) === "function") {
                                 var data_container = nearest_datacontainer(element);
                                 element.style.setProperty(
                                     key,
